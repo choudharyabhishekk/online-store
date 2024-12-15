@@ -24,7 +24,7 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title text-dark">@product.Name</h5>
                             <p class="card-text text-muted small">@product.Description</p>
-                            <p class="card-text fw-bold text-primary">Price: $@product.Price</p>
+                            <p class="card-text fw-bold text-primary">$@product.Price</p>
                             <a href="@Url.Action("Details", "Products", new { id = product.Id })"
                                 class="btn btn-outline-primary mt-auto">View Details</a>
                         </div>

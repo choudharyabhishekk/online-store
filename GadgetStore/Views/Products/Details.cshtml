@@ -37,7 +37,6 @@
         <!-- Product Information -->
         <div class="col-md-7">
             <h1 class="display-5 fw-bold text-dark">@Model.Name</h1>
-            <p class="text-muted mb-4">@Model.Description</p>
 
             @if (Model.Category != null)
             {
@@ -45,7 +44,8 @@
             }
 
             <h3 class="text-success fw-bold mb-4">$@Model.Price.ToString("F2")</h3>
-
+            <hr/>
+            <p class="text-muted mb-4">@Model.Description</p>
             <!-- Add to Cart Form -->
             <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mb-4">
                 @* Anti-Forgery Token *@
