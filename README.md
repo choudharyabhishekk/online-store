@@ -105,20 +105,5 @@ Products Page:
 - **Authorization**: Role-based access for users and admins.
 - **Password Protection**: Passwords are encrypted.
 
----
 
-## **Possible Improvements**
-- **Payment Gateway**: Add PayPal or Stripe for payments.
-- **Product Reviews**: Allow users to review products.
-- **Order Tracking**: Track order status.
-- **Email Notifications**: Send order updates to users.
-
----
-
-## **Contact**
-For questions or issues, reach out via GitHub Issues.
-
----
-
-Thank you for using the Online Electronics Store!
 
