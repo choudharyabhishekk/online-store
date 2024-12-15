@@ -1,0 +1,98 @@
+@model GadgetStore.Models.Product
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 text-primary">Add New Product</h1>
+
+    <form asp-action="CreateProduct" method="post" enctype="multipart/form-data" class="mt-3" id="productForm">
+        <div class="mb-3">
+            <label for="Name" class="form-label">Product Name</label>
+            <input type="text" name="Name" id="Name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="Description" class="form-label">Description</label>
+            <textarea name="Description" id="Description" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="Price" class="form-label">Price</label>
+            <input type="number" name="Price" id="Price" class="form-control" step="0.01" />
+        </div>
+        <div class="mb-3">
+            <label for="CategoryId" class="form-label">Category</label>
+            <select name="CategoryId" id="CategoryId" class="form-select">
+                <option value="">Select a Category</option>
+                @foreach (var category in ViewBag.Categories as IEnumerable<GadgetStore.Models.Category>)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="ImageUrl" class="form-label">Image URL</label>
+            <input type="text" name="ImageUrl" id="ImageUrl" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="/Admin/Products" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#productForm").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        minlength: 3
+                    },
+                    Description: {
+                        required: true,
+                        minlength: 10
+                    },
+                    Price: {
+                        required: true,
+                        number: true,
+                        min: 0.01
+                    },
+                    CategoryId: {
+                        required: true
+                    },
+                    ImageUrl: {
+                        url: true
+                    }
+                },
+                messages: {
+                    Name: {
+                        required: "Please enter the product name.",
+                        minlength: "The product name must be at least 3 characters long."
+                    },
+                    Description: {
+                        required: "Please provide a description.",
+                        minlength: "The description must be at least 10 characters long."
+                    },
+                    Price: {
+                        required: "Please enter the product price.",
+                        number: "Please enter a valid number.",
+                        min: "The price must be at least $0.01."
+                    },
+                    CategoryId: {
+                        required: "Please select a category."
+                    },
+                    ImageUrl: {
+                        url: "Please enter a valid URL."
+                    }
+                },
+                errorClass: "is-invalid",
+                validClass: "is-valid",
+                errorElement: "div",
+                errorPlacement: function (error, element) {
+                    error.addClass("invalid-feedback");
+                    element.closest(".mb-3").append(error);
+                }
+            });
+        });
+    </script>
+}

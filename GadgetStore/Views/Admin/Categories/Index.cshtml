@@ -1,0 +1,29 @@
+@model List<GadgetStore.Models.Category>
+
+<div class="container mt-5">
+    <h1 class="text-primary">Categories</h1>
+    <a href="/Admin/Categories/Create" class="btn btn-success mb-3">Add New Category</a>
+
+    <table class="table table-bordered">
+        <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.Id</td>
+                    <td>@category.Name</td>
+                    <td>
+                        <a href="/Admin/Categories/Edit/@category.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/Admin/Categories/Delete/@category.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

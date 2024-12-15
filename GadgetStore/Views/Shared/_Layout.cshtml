@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gadget Store</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .footer {
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+            <img width="150px" src="/images/logo1.png" />    
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <!-- Admin-specific routes -->
+                        <li class="nav-item"><a class="nav-link" href="/Admin/Dashboard">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Admin/Categories">Categories</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Admin/Products">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Admin/Orders">Orders</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Admin/Users">Customers</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Admin/ContactSubmissions">Inquires</a></li>
+
+                    }
+                    else
+                    {
+                        <!-- Non-admin routes -->
+                        <li class="nav-item"><a class="nav-link" href="/Products">Shop All</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Products?categoryId=1">Smartphones</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Products?categoryId=2">Laptops</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Products?categoryId=4">Audio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Products?categoryId=3">Accessories</a></li>
+                  
+                    }
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- Show only for non-admin users -->
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <!-- Logged-in user options -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Identity/Account/Manage">
+                                    <i class="fas fa-user-circle me-2"></i>Account
+                                </a>
+                            </li>
+
+                            <!-- Orders -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Orders">
+                                    <i class="fas fa-box me-2"></i>Orders
+                                </a>
+                            </li>
+
+                            <!-- Cart -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Cart">
+                                    <i class="fas fa-shopping-cart me-2"></i>Cart
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger rounded-pill">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </button>
+                            </form>
+                        </li>
+                    }
+
+                    else
+                    {
+                        <!-- Guest user options -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Sign Up</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content container mt-4">
+        @RenderBody()
+    </div>
+
+  
+        <footer class="mt-4 text-center text-lg-start text-white" style="background-color: #1c2331">
+   
+
+            <section class="">
+                <div class="container text-center text-md-start mt-5">
+                    <div class="row mt-3">
+                        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                            <h6 class="text-uppercase fw-bold">Gadget Store</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>Your one-stop shop for the latest gadgets and electronics. Explore our vast collection of products and find the perfect fit for your needs.</p>
+                        </div>
+
+                        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <h6 class="text-uppercase fw-bold">Products</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                        <p><a href="/Products" class="text-white" style="text-decoration:none">All Products</a></p>
+                        <p><a href="/Cart" class="text-white" style="text-decoration:none">Your Cart</a></p>
+                        <p><a href="/Orders" class="text-white" style="text-decoration:none">Your Orders</a></p>
+                        </div>
+
+                        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <h6 class="text-uppercase fw-bold">Useful links</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p><a href="/Contact" class="text-white" style="text-decoration:none">Contact</a></p>
+                        <p><a href="/Identity/Account/Login" class="text-white" style="text-decoration:none">Login</a></p>
+                        <p><a href="/Identity/Account/Register" class="text-white" style="text-decoration:none">Sign Up</a></p>
+                        </div>
+
+                        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                            <h6 class="text-uppercase fw-bold">Contact</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p><i class="fas fa-home mr-3"></i>Kitchener, ON, N2E3C9</p>
+                            <p><i class="fas fa-envelope mr-3"></i> support@gadgetstore.com</p>
+                            <p><i class="fas fa-phone mr-3"></i> +1 123 567 890</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+                © 2024 Gadget Store. All Rights Reserved.
+            </div>
+        </footer>
+ 
+
+    @RenderSection("Scripts", required: false)
+</body>
+
+
+
+</html>

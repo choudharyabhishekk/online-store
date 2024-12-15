@@ -1,0 +1,240 @@
+@model List<GadgetStore.Models.CartItem>
+
+<div class="container mt-5">
+    <h1 class="display-4 text-primary mb-4">Checkout</h1>
+
+    <!-- Customer Information Form -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Customer Information</h5>
+            <form asp-controller="Checkout" asp-action="ProcessOrder" method="post" id="checkoutForm">
+                <div class="mb-3">
+                    <label for="customerName" class="form-label">Full Name</label>
+                    <input type="text" name="CustomerName" id="customerName" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="Email" id="email" class="form-control" value="@User.Identity.Name"
+                           disabled />
+                    <!-- Hidden field to pass email -->
+                    <input type="hidden" name="Email" value="@User.Identity.Name" />
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Shipping Address</label>
+                    <textarea name="Address" id="address" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" name="Phone" id="phone" class="form-control" />
+                </div>
+                <div class="mb-3">f
+                    <label for="paymentMethod" class="form-label">Payment Method</label>
+                    <select name="PaymentMethod" id="paymentMethod" class="form-select">
+                        <option value="">Select Payment Method</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                    </select>
+                </div>
+                <div id="additionalFields" class="mb-3"></div>
+                <button type="submit" class="btn btn-success btn-lg">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Order Summary</h5>
+            <table class="table align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Product.Name</td>
+                            <td>$@item.Product.Price</td>
+                            <td>@item.Quantity</td>
+                            <td>$@(item.Product.Price * item.Quantity)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <h4 class="text-end text-primary">Total: $@ViewBag.Total</h4>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#paymentMethod').on('change', function () {
+                const paymentMethod = $(this).val();
+                const additionalFields = $('#additionalFields');
+                additionalFields.empty(); // Clear previous fields
+
+                if (paymentMethod === "Credit Card") {
+                    additionalFields.html(`
+                                <div class="mb-3">
+                                    <label for="cardNumber" class="form-label">Card Number</label>
+                                    <input type="text" name="CardNumber" id="cardNumber" class="form-control" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="expiryDate" class="form-label">Expiry Date</label>
+                                    <input type="month" name="ExpiryDate" id="expiryDate" class="form-control" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input type="text" name="CVV" id="cvv" class="form-control" required />
+                                </div>
+                            `);
+                } else if (paymentMethod === "PayPal") {
+                    additionalFields.html(`
+                                <div class="mb-3">
+                                    <label for="paypalEmail" class="form-label">PayPal Email</label>
+                                    <input type="email" name="PayPalEmail" id="paypalEmail" class="form-control" required />
+                                </div>
+                            `);
+                } else if (paymentMethod === "Bank Transfer") {
+                    additionalFields.html(`
+                                <div class="mb-3">
+                                    <label for="bankAccount" class="form-label">Bank Account Number</label>
+                                    <input type="text" name="BankAccount" id="bankAccount" class="form-control" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="routingNumber" class="form-label">Routing Number</label>
+                                    <input type="text" name="RoutingNumber" id="routingNumber" class="form-control" required />
+                                </div>
+                            `);
+                }
+            });
+
+            $("#checkoutForm").validate({
+                rules: {
+                    CustomerName: {
+                        required: true,
+                    },
+                    Address: {
+                        required: true,
+                    },
+                    Phone: {
+                        required: true,
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 15
+                    },
+                    PaymentMethod: {
+                        required: true
+                    },
+                    CardNumber: {
+                        required: function () {
+                            return $("#paymentMethod").val() === "Credit Card";
+                        },
+                        digits: true,
+                        minlength: 16,
+                        maxlength: 16
+                    },
+                    ExpiryDate: {
+                        required: function () {
+                            return $("#paymentMethod").val() === "Credit Card";
+                        }
+                    },
+                    CVV: {
+                        required: function () {
+                            return $("#paymentMethod").val() === "Credit Card";
+                        },
+                        digits: true,
+                        minlength: 3,
+                        maxlength: 3
+                    },
+                    PayPalEmail: {
+                        required: function () {
+                            return $("#paymentMethod").val() === "PayPal";
+                        },
+                        email: true
+                    },
+                    BankAccount: {
+                        required: function () {
+                            return $("#paymentMethod").val() === "Bank Transfer";
+                        },
+                        digits: true,
+                        minlength: 10,
+                        maxlength: 18
+                    },
+                    RoutingNumber: {
+                        required: function () {
+                            return $("#paymentMethod").val() === "Bank Transfer";
+                        },
+                        digits: true,
+                        minlength: 9,
+                        maxlength: 9
+                    }
+                },
+                messages: {
+                    CustomerName: {
+                        required: "Please enter your full name.",
+                        minlength: "Your name must be at least 3 characters long."
+                    },
+                    Address: {
+                        required: "Please provide a shipping address.",
+                        minlength: "Your address must be at least 10 characters long."
+                    },
+                    Phone: {
+                        required: "Please provide a phone number.",
+                        digits: "Please enter only digits.",
+                        minlength: "Your phone number must be at least 10 digits long.",
+                        maxlength: "Your phone number cannot exceed 15 digits."
+                    },
+                    PaymentMethod: {
+                        required: "Please select a payment method."
+                    },
+                    CardNumber: {
+                        required: "Please enter your credit card number.",
+                        digits: "Please enter only digits.",
+                        minlength: "Your card number must be 16 digits.",
+                        maxlength: "Your card number must be 16 digits."
+                    },
+                    ExpiryDate: {
+                        required: "Please provide the card expiry date."
+                    },
+                    CVV: {
+                        required: "Please enter the card CVV.",
+                        digits: "Please enter only digits.",
+                        minlength: "The CVV must be 3 digits.",
+                        maxlength: "The CVV must be 3 digits."
+                    },
+                    PayPalEmail: {
+                        required: "Please enter your PayPal email.",
+                        email: "Please enter a valid email address."
+                    },
+                    BankAccount: {
+                        required: "Please enter your bank account number.",
+                        digits: "Please enter only digits.",
+                        minlength: "The account number must be at least 10 digits.",
+                        maxlength: "The account number cannot exceed 18 digits."
+                    },
+                    RoutingNumber: {
+                        required: "Please enter the routing number.",
+                        digits: "Please enter only digits.",
+                        minlength: "The routing number must be 9 digits.",
+                        maxlength: "The routing number must be 9 digits."
+                    }
+                },
+                errorClass: "is-invalid",
+                validClass: "is-valid",
+                errorElement: "div",
+                errorPlacement: function (error, element) {
+                    error.addClass("invalid-feedback");
+                    element.closest(".mb-3").append(error);
+                }
+            });
+        });
+    </script>
+}
+

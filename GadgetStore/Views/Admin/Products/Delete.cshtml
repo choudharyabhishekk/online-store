@@ -1,0 +1,22 @@
+@model GadgetStore.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 text-danger">Delete Product</h1>
+
+    <p>Are you sure you want to delete the following product?</p>
+    <ul>
+        <li><strong>Name:</strong> @Model.Name</li>
+        <li><strong>Price:</strong> $@Model.Price</li>
+        <li><strong>Category:</strong> @Model.Category?.Name</li>
+    </ul>
+
+    <form asp-action="DeleteProductConfirmed" asp-route-id=@Model.Id method="post">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="/Admin/Products" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

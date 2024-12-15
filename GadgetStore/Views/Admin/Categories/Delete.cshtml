@@ -1,0 +1,10 @@
+@model GadgetStore.Models.Category
+
+<div class="container mt-5">
+    <h1 class="text-danger">Delete Category</h1>
+    <p>Are you sure you want to delete the category "<strong>@Model.Name</strong>"?</p>
+    <form method="post" action="/Admin/Categories/Delete/@Model.Id">
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="/Admin/Categories" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

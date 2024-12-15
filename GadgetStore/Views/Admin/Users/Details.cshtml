@@ -1,0 +1,22 @@
+@model Microsoft.AspNetCore.Identity.IdentityUser
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 text-primary">User Details</h1>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <h5 class="card-title">User Information</h5>
+            <p class="card-text"><strong>ID:</strong> @Model.Id</p>
+            <p class="card-text"><strong>Username:</strong> @Model.UserName</p>
+            <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-secondary">Back to Users</a>
+    </div>
+</div>

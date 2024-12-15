@@ -1,0 +1,74 @@
+@model GadgetStore.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="container my-5">
+    <!-- Feedback Messages at the Top -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @* @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    } *@
+
+    <!-- Product Details Section -->
+    <div class="row gx-5">
+        <!-- Product Image -->
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0">
+                <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded"
+                    style="object-fit: contain; max-height: 500px;" />
+            </div>
+        </div>
+
+        <!-- Product Information -->
+        <div class="col-md-7">
+            <h1 class="display-5 fw-bold text-dark">@Model.Name</h1>
+            <p class="text-muted mb-4">@Model.Description</p>
+
+            @if (Model.Category != null)
+            {
+                <p class="text-muted"><strong>Category:</strong> @Model.Category.Name</p>
+            }
+
+            <h3 class="text-success fw-bold mb-4">$@Model.Price.ToString("F2")</h3>
+
+            <!-- Add to Cart Form -->
+            <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mb-4">
+                @* Anti-Forgery Token *@
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="ProductId" value="@Model.Id" />
+
+                <div class="mb-3">
+                    <label for="quantity" class="form-label fw-bold">Quantity:</label>
+                    <input id="quantity" name="Quantity" type="number" class="form-control w-25" value="1" min="1"
+                        max="10" required aria-label="Quantity" />
+                    <small class="form-text text-muted">Select a quantity between 1 and 10.</small>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex">
+                    <button type="submit" class="btn btn-primary btn-lg me-md-2">
+                        <i class="bi bi-cart-plus"></i> Add to Cart
+                    </button>
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary btn-lg">
+                        <i class="bi bi-arrow-left"></i> Back to Products
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+﻿@model GadgetStore.Models.Order
+
+@{
+    ViewData["Title"] = $"Order Details - Order ID: {Model.Id}";
+}
+
+<h1 class="mb-4 text-primary">Order Details</h1>
+
+<!-- Customer Information Section -->
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h4>Customer Information</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>Name:</strong> @Model.CustomerName</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Phone:</strong> @Model.Phone</p>
+        <p><strong>Address:</strong> @Model.Address</p>
+    </div>
+</div>
+
+<!-- Order Information Section -->
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h4>Order Information</h4>
+    </div>
+    <div class="card-body">
+        <p><strong>Payment Method:</strong> @Model.PaymentMethod</p>
+        <p><strong>Total Amount:</strong> @Model.TotalAmount.ToString("C")</p>
+        <p><strong>Order Date:</strong> @Model.OrderDate.ToString("f")</p>
+    </div>
+</div>
+
+<!-- Order Items Section -->
+<div class="card">
+    <div class="card-header bg-secondary text-white">
+        <h4>Order Items</h4>
+    </div>
+    <div class="card-body">
+        @if (!Model.OrderItems.Any())
+        {
+            <p>No items found in this order.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td>@item.ProductId</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C")</td>
+                            <td>$@(item.Quantity * item.Price)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

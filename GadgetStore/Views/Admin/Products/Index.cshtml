@@ -1,0 +1,44 @@
+@model IEnumerable<GadgetStore.Models.Product>
+
+@{
+    ViewData["Title"] = "Manage Products";
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 text-primary">Products</h1>
+    <a href="/Admin/Products/Create" class="btn btn-primary mb-3">Add New Product</a>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>$@product.Price</td>
+                    <td>@product.Category?.Name</td>
+                    <td>
+                        <a href="/Admin/Products/Edit/@product.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="/Admin/Products/Delete/@product.Id" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

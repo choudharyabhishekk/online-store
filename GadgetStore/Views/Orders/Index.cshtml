@@ -1,0 +1,48 @@
+@model List<OrderViewModel>
+@{
+    ViewData["Title"] = "Your Orders";
+}
+
+<h1 class="text-primary mb-4">Your Orders</h1>
+
+@if (ViewBag.NoOrders)
+{
+        <div class="alert alert-info text-center">
+            <h4>No orders found.</h4>
+            <p>It seems like you haven't placed any orders yet. Start shopping now!</p>
+            <a href="/Products" class="btn btn-primary">Shop Now</a>
+        </div>
+}
+else
+{
+        <div class="list-group">
+        @foreach (var order in Model)
+        {
+                    <div class="list-group-item shadow-sm mb-3">
+                        <h5 class="text-primary">Order ID: @order.OrderId</h5>
+                        <p><strong>Order Date:</strong> @order.OrderDate.ToString("dd MMM yyyy")</p>
+                        <p><strong>Total Amount:</strong> $@order.TotalAmount</p>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        @foreach (var item in order.Items)
+                        {
+                                        <tr>
+                                            <td>@item.ProductName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>$@item.Price</td>
+                                        </tr>
+                        }
+                            </tbody>
+                        </table>
+                    </div>
+        }
+        </div>
+}

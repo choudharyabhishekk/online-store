@@ -1,0 +1,12 @@
+@model GadgetStore.Models.Category
+
+<div class="container mt-5">
+    <h1 class="text-primary">Edit Category</h1>
+    <form method="post" action="/Admin/Categories/Edit/@Model.Id">
+        <div class="mb-3">
+            <label for="Name" class="form-label">Category Name</label>
+            <input type="text" id="Name" name="Name" class="form-control" value="@Model.Name" required />
+        </div>
+        <button type="submit" class="btn btn-warning">Update Category</button>
+    </form>
+</div>

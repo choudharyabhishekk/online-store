@@ -1,0 +1,95 @@
+﻿@model GadgetStore.ViewModels.HomeViewModel
+
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="hero-section text-center text-white py-5"
+        style="background: linear-gradient(90deg, #007bff 0%, #6610f2 100%); border-radius: 10px;">
+        <h1 class="display-4 fw-bold">Welcome to Gadget Store</h1>
+        <p class="lead">Explore the latest gadgets and accessories at unbeatable prices!</p>
+        <a href="/Products" class="btn btn-light btn-lg shadow-sm mt-3">Shop Now</a>
+    </div>
+
+    <!-- Featured Products Section -->
+    <div class="mt-5">
+        <h2 class="text-center text-primary">Featured Products</h2>
+        <p class="text-center text-muted mb-4">Discover our best-selling and latest arrivals!</p>
+        <div class="row">
+            @foreach (var product in Model.FeaturedProducts)
+            {
+                <div class="col-md-4 col-lg-3 mb-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="image-container">
+                            <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" />
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-dark">@product.Name</h5>
+                            <p class="card-text text-muted small">@product.Description</p>
+                            <p class="card-text fw-bold text-primary">Price: $@product.Price</p>
+                            <a href="@Url.Action("Details", "Products", new { id = product.Id })"
+                                class="btn btn-outline-primary mt-auto">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="about-section text-center bg-light py-5 mt-5 rounded">
+        <h2 class="text-primary">Why Choose Gadget Store?</h2>
+        <p class="text-muted">We offer the best gadgets at unbeatable prices with fast delivery and excellent customer
+            service.</p>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-3">
+                <i class="fas fa-truck text-primary fa-2x"></i>
+                <h5 class="mt-2">Fast Delivery</h5>
+                <p class="text-muted small">Get your gadgets delivered quickly and safely to your doorstep.</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-shield-alt text-primary fa-2x"></i>
+                <h5 class="mt-2">Secure Payment</h5>
+                <p class="text-muted small">Enjoy a seamless and secure checkout process.</p>
+            </div>
+            <div class="col-md-3">
+                <i class="fas fa-thumbs-up text-primary fa-2x"></i>
+                <h5 class="mt-2">Top Quality</h5>
+                <p class="text-muted small">Shop from a wide range of premium and trusted brands.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .image-container {
+        height: 200px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #eaeaea;
+        padding: 10px;
+    }
+
+    .image-container img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+    }
+
+    .hero-section {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-section .fa-2x {
+        color: #007bff;
+    }
+
+    .about-section h5 {
+        font-weight: 600;
+    }
+</style>
+
+<!-- Add Font Awesome for Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

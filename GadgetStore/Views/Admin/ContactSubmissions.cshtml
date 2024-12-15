@@ -1,0 +1,36 @@
+﻿@model IEnumerable<GadgetStore.Models.ContactUs>
+
+@{
+    ViewData["Title"] = "Contact Submissions";
+}
+
+<h1>Contact Submissions</h1>
+
+@if (!Model.Any())
+{
+    <p>No contact form submissions found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var submission in Model)
+            {
+                <tr>
+                    <td>@submission.Name</td>
+                    <td>@submission.Email</td>
+                    <td>@submission.Subject</td>
+                    <td>@submission.Message</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
