@@ -1,6 +1,6 @@
 # Online Electronics Store
 
-The Online Electronics Store is a simple e-commerce platform built with ASP.NET Core MVC. It includes a user-friendly customer interface, an admin panel for store management, user authentication via ASP.NET Identity, and a mobile-responsive design using Bootstrap.
+The Online Electronics Store is an e-commerce platform built with ASP.NET Core 8.0 MVC. It includes a user-friendly customer interface, an admin panel for store management, user authentication via ASP.NET Identity, and a mobile-responsive design using Bootstrap.
 
 ## Screenshots:
 
@@ -40,7 +40,6 @@ Products Page:
 - **Authentication**: ASP.NET Identity
 - **Frontend**: HTML, CSS, JavaScript, and Bootstrap
 - **Database**: SQL Server (via Entity Framework Core)
-- **Server**: Kestrel Web Server
 - **Tools**: Visual Studio, Git, and Postman (for testing)
 
 ---
