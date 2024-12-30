@@ -4,6 +4,11 @@ The Online Electronics Store is an e-commerce platform built with ASP.NET Core 8
 
 ## Screenshots:
 
+Demo Video:
+
+
+https://github.com/user-attachments/assets/a06b381c-75ed-4003-9f52-4cf943560c8f
+
 
 Homepage:
 
